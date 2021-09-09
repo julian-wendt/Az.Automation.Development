@@ -1,0 +1,9 @@
+{
+    "TenantId": "00000000-0000-0000-0000-000000000000",
+    "SubscriptionId": "00000000-0000-0000-0000-000000000000",
+    "ResourceGroupName": "dev-ressourcegroupname-weeu-rg",
+    "PrdResourceGroupName": "prd-ressourcegroupname-weeu-rg",
+    "AutomationAccountName": "dev-automationaccountname-weeu-aa",
+    "PrdAutomationAccountName": "prd-automationaccountname-weeu-aa",
+    "LocalRunbookPath": "C:\\Repos\\my-automation-project\\runbooks"
+}
