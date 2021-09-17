@@ -5,5 +5,10 @@
     "PrdResourceGroupName": "prd-ressourcegroupname-weeu-rg",
     "AutomationAccountName": "dev-automationaccountname-weeu-aa",
     "PrdAutomationAccountName": "prd-automationaccountname-weeu-aa",
-    "LocalRunbookPath": "C:\\Repos\\my-automation-project\\runbooks"
+    "StorageContainers": {
+        "Modules": "modules",
+        "Queries": "queries"
+    },
+    "LocalRunbookPath": "C:\\Repos\\my-automation-project\\runbooks",
+    "LocalModulePath": "C:\\Repos\\my-automation-project\\runbooks\\modules"
 }
