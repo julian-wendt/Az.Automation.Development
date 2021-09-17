@@ -33,7 +33,7 @@ function Update-AzureRunbook {
             throw "Local runbook not found."
         }
 
-        # If a $Name is not empty, remove other found runbooks from list
+        # If $Name is not empty, remove other found runbooks from list
         $LocalRunbooks = $LocalRunbooks | Where-Object { $_.Name.ToLower() -eq $Name }
     }
 
