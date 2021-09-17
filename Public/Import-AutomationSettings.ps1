@@ -1,4 +1,8 @@
 function Import-AutomationSettings {
+
+    # Suppress notifications about declared unused vars
+    [Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseDeclaredVarsMoreThanAssignments', '', Scope = 'Function')]
+
     param (
         [Parameter(Mandatory = $true)]
         [string]$Path,
@@ -8,35 +12,37 @@ function Import-AutomationSettings {
     )
 
     try {
-        $Global:EnvironmentSettings = Get-Content -Path $Path -Raw | ConvertFrom-Json
+
+        if ((Test-Path -Path $Path -IsValid) -eq $false) {
+            throw "File not found."
+        }
+
+        $Settings = Get-Content -Path $Path -Raw | ConvertFrom-Json
     }
     catch {
-        throw "Failed to import automatin environment settings. $PSItem"
+        throw "Failed to import automation environment settings. $PSItem"
     }
 
-    $Variables = (Get-Variable -Scope 'Global').Name
-
-    if ('AzSubscription' -notin $Variables) {
-        New-Variable -Name 'AzSubscription' -Scope 'Global' -Value @{
-            TenantId       = $Global:EnvironmentSettings.TenantId
-            SubscriptionId = $Global:EnvironmentSettings.SubscriptionId
-        }
+    if ($Productive.IsPresent) {
+        # Overwrite common settings with settings from the productive tree
+        $Settings = Merge-Objects -Object1 $Settings -Object2 $Settings.ProductiveEnvironment
     }
     
-    if ('AzAutomationAccount' -notin $Variables) {
-        New-Variable -Name 'AzAutomationAccount' -Scope 'Global' -Value @{
-            ResourceGroupName     = $Global:EnvironmentSettings.ResourceGroupName
-            AutomationAccountName = $Global:EnvironmentSettings.AutomationAccountName
-        }
+    $Global:AzSubscription = @{
+        TenantId       = $Settings.TenantId
+        SubscriptionId = $Settings.SubscriptionId
+    }
+    
+    $Global:AzAutomationAccount = @{
+        ResourceGroupName     = $Settings.ResourceGroupName
+        AutomationAccountName = $Settings.AutomationAccountName
+    }
+ 
+    $Global:AzStorageAccount = @{
+        ResourceGroupName = $Settings.ResourceGroupName
+        AccountName       = $Settings.StorageAccountName
     }
 
-    if ('LocalRunbookPath' -notin $Variables) {
-        New-Variable -Name 'LocalRunbookPath' -Scope 'Global' -Value $Global:EnvironmentSettings.LocalRunbookPath
-    }
-
-    # Replace default dev values with productive values
-    if ($Productive.IsPresent -and $Global.AzAutomationAccount) {
-        $Global:AzAutomationAccount.ResourceGroupName = $Global:EnvironmentSettings.PrdResourceGroupName
-        $Global:AzAutomationAccount.AutomationAccountName = $Global:EnvironmentSettings.PrdAutomationAccountName
-    }
+    $Global:LocalRunbookPath = $Settings.LocalDirectories.Runbooks
+    $Global:LocalModulePath = $Settings.LocalDirectories.Modules
 }
