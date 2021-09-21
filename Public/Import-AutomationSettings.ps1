@@ -40,7 +40,7 @@ function Import-AutomationSettings {
  
     $Global:AzStorageAccount = @{
         ResourceGroupName = $Settings.ResourceGroupName
-        AccountName       = $Settings.AutomationAccountName
+        AccountName       = $Settings.StorageAccountName
     }
 
     $Global:AzModulesContainer = $Settings.StorageContainers.Modules
