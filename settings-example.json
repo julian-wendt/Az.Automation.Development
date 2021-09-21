@@ -2,13 +2,19 @@
     "TenantId": "00000000-0000-0000-0000-000000000000",
     "SubscriptionId": "00000000-0000-0000-0000-000000000000",
     "ResourceGroupName": "dev-ressourcegroupname-weeu-rg",
-    "PrdResourceGroupName": "prd-ressourcegroupname-weeu-rg",
     "AutomationAccountName": "dev-automationaccountname-weeu-aa",
-    "PrdAutomationAccountName": "prd-automationaccountname-weeu-aa",
+    "StorageAccountName": "devstorageweeustg",
     "StorageContainers": {
         "Modules": "modules",
         "Queries": "queries"
     },
-    "LocalRunbookPath": "C:\\Repos\\my-automation-project\\runbooks",
-    "LocalModulePath": "C:\\Repos\\my-automation-project\\runbooks\\modules"
+    "LocalDirectories": {
+        "Runbooks": "C:\\Repos\\my-local-repository\\runbooks",
+        "Modules": "C:\\Repos\\my-local-repository\\modules"
+    },
+    "ProductiveEnvironment": {
+        "ResourceGroupName": "prd-ressourcegroupname-weeu-rg",
+        "AutomationAccountName": "prd-automationaccountname-weeu-aa",
+        "StorageAccountName": "prdstorageweeustg"
+    }
 }
