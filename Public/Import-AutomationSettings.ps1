@@ -40,7 +40,7 @@ function Import-AutomationSettings {
  
     $Global:AzStorageAccount = @{
         ResourceGroupName = $Settings.ResourceGroupName
-        AccountName       = $Settings.StorageAccountName
+        AccountName       = $Settings.AutomationAccountName
     }
 
     $Global:LocalRunbookPath = $Settings.LocalDirectories.Runbooks
