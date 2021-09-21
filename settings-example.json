@@ -1,7 +1,7 @@
 {
     "TenantId": "00000000-0000-0000-0000-000000000000",
     "SubscriptionId": "00000000-0000-0000-0000-000000000000",
-    "ResourceGroupName": "dev-ressourcegroupname-weeu-rg",
+    "ResourceGroupName": "dev-resourcegroupname-weeu-rg",
     "AutomationAccountName": "dev-automationaccountname-weeu-aa",
     "StorageAccountName": "devstorageweeustg",
     "StorageContainers": {
@@ -13,7 +13,7 @@
         "Modules": "C:\\Repos\\my-local-repository\\modules"
     },
     "ProductiveEnvironment": {
-        "ResourceGroupName": "prd-ressourcegroupname-weeu-rg",
+        "ResourceGroupName": "prd-resourcegroupname-weeu-rg",
         "AutomationAccountName": "prd-automationaccountname-weeu-aa",
         "StorageAccountName": "prdstorageweeustg"
     }
