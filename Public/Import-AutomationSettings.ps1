@@ -43,6 +43,9 @@ function Import-AutomationSettings {
         AccountName       = $Settings.AutomationAccountName
     }
 
+    $Global:AzModulesContainer = $Settings.StorageContainers.Modules
+    $Global:AzQueriesContainer = $Settings.StorageContainers.Queries
+
     $Global:LocalRunbookPath = $Settings.LocalDirectories.Runbooks
     $Global:LocalModulePath = $Settings.LocalDirectories.Modules
 }
