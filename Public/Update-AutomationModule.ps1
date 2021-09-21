@@ -57,6 +57,9 @@ function Update-AutomationModule {
             
             # Install automation module in automation account
             New-AzAutomationModule @Global:AzAutomationAccount -Name $LocalModule.Name -ContentLinkUri $Uri | Out-Null
+
+            # Remove zipped module
+            Remove-Item -Path $Path -Force
         }
         catch {
             throw "Failed to update automation module. $PSItem"
