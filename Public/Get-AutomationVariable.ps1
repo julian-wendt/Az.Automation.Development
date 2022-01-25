@@ -27,14 +27,28 @@ function Get-AutomationVariable {
 
     $Output = $null
 
+    $PrdName = 'Prd' + $Name
+
+    # Return value from environment settings
     $Variables = (Get-Variable -Scope 'Global').Name
     if ('EnvironmentSettings' -in $Variables) {
-        $Output = $Global:EnvironmentSettings.$Name
+        if ($Global:EnvironmentSettings.$Name) {
+            $Output = $Global:EnvironmentSettings.$Name
+
+            if ($Global:UseProductiveValues -and $Global:EnvironmentSettings.$PrdName) {
+                $Output = $Global:EnvironmentSettings.$PrdName
+            }
+        }
     }
     
-    $Secrets = Get-SecretInfo | Select-Object -ExpandProperty 'Name'
-    if ($Name -in $Secrets) {
+    # Return value from vault
+    $Secrets = Get-SecretInfo
+    if ($Name -in $Secrets.Name) {
         $Output = Get-Secret -Name $Name -AsPlainText
+
+        if ($Global:UseProductiveValues -and $PrdName -in $Secrets.Name) {
+            $Output = Get-Secret -Name $PrdName -AsPlainText
+        }
     }
 
     if ($null -ne $Output) {
