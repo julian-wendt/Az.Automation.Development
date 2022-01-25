@@ -28,6 +28,9 @@ function Import-AutomationSettings {
         $Settings = Merge-Objects -Object1 $Settings -Object2 $Settings.ProductiveEnvironment
     }
     
+    # Output environment settings
+    $Settings | Write-Output
+    
     $Global:AzSubscription = @{
         TenantId       = $Settings.TenantId
         SubscriptionId = $Settings.SubscriptionId
