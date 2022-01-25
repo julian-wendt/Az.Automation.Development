@@ -72,7 +72,7 @@ RequiredModules = @('Az.Accounts',
 # NestedModules = @()
 
 # Functions to export from this module, for best performance, do not use wildcards and do not delete the entry, use an empty array if there are no functions to export.
-FunctionsToExport = 'Compress-ModuleFiles', 'Connect-AzureSubscription', 
+FunctionsToExport = 'Compress-ModuleFiles', 'Connect-AzureSubscription', 'ConvertTo-Object',
                'Get-AutomationModule', 'Get-AutomationVariable', 'Get-AzureRunbook', 
                'Get-LocalRunbook', 'Import-AutomationSettings', 'Merge-Objects', 
                'New-StorageBlob', 'New-StorageContext', 'Publish-AzureRunbook', 
