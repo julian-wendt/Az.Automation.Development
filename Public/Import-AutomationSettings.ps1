@@ -51,4 +51,10 @@ function Import-AutomationSettings {
 
     $Global:LocalRunbookPath = $Settings.LocalDirectories.Runbooks
     $Global:LocalModulePath = $Settings.LocalDirectories.Modules
+
+    # Used by Get-AutomationVariable for less sensitive data
+    $Global:EnvironmentSettings = $Settings
+
+    # Used to prepend variable names with 'Prd'
+    $Global:UseProductiveValues = $Productive.IsPresent
 }
