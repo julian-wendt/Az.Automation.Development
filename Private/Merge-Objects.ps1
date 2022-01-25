@@ -9,7 +9,7 @@ function Merge-Objects {
         [System.Object]$Object2
     )
     
-    $Output = @{}
+    $Output = [ordered]@{}
 
     foreach ($Property in $Object1.PSObject.Properties) {
         $Output.Add($Property.Name, $Property.Value)
@@ -17,10 +17,10 @@ function Merge-Objects {
 
     foreach ($Property in $Object2.PSObject.Properties) {
         if ($Property.Name -in $Output.Keys) {
-            Write-Host "Use '$($Property.Name)' from productive environment." -ForegroundColor 'Green'
             $Output.($Property.Name) = $Property.Value
         }
     }
 
-    return $Output
+    # Return object
+    return ($Output | ConvertTo-Object)
 }
