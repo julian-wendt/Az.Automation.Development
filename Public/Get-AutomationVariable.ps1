@@ -25,29 +25,30 @@ function Get-AutomationVariable {
 
     $ErrorActionPreference = 'Stop'
 
+    # Get global environment settings
+    $EnvironmentSettings = $Global:EnvironmentSettings |
+        Get-Member -MemberType NoteProperty
+
     $Output = $null
 
-    $PrdName = 'Prd' + $Name
-
-    # Return value from environment settings
-    $Variables = (Get-Variable -Scope 'Global').Name
-    if ('EnvironmentSettings' -in $Variables) {
-        if ($Global:EnvironmentSettings.$Name) {
-            $Output = $Global:EnvironmentSettings.$Name
-
-            if ($Global:UseProductiveValues -and $Global:EnvironmentSettings.$PrdName) {
-                $Output = $Global:EnvironmentSettings.$PrdName
-            }
-        }
+    # Use value from environment settings
+    if ($Name -in $EnvironmentSettings.Name) {
+        Write-Verbose -Message "Use '$Name' from environment settings." -Verbose
+        $Output = $Global:EnvironmentSettings.$Name
     }
     
-    # Return value from vault
+    # Use value from vault
     $Secrets = Get-SecretInfo
     if ($Name -in $Secrets.Name) {
+        Write-Verbose -Message "Use '$Name' from secret store. Overwrite existing." -Verbose
         $Output = Get-Secret -Name $Name -AsPlainText
 
-        if ($Global:UseProductiveValues -and $PrdName -in $Secrets.Name) {
-            $Output = Get-Secret -Name $PrdName -AsPlainText
+        # Setup productive property name. This will be used if
+        # environment settings have been loaded using -Productive switch.
+        $ProductiveName = ($Name + '_Prd').ToString()
+        if ($Global:UseProductiveValues -eq $true -and $ProductiveName -in $Secrets.Name) {
+            Write-Verbose -Message 'Found productive value. Overwrite existing.' -Verbose
+            $Output = Get-Secret -Name $ProductiveName -AsPlainText
         }
     }
 
